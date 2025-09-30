@@ -4,15 +4,15 @@ const contactsShema = new Schema(
     { 
     name: {
         type: String,
-        require: true,
+        required: true,
     }, 
     phoneNumber: {
         type: String,
-        require: true,
+        required: true,
     },
     email: { 
         type: String,
-        require: false
+        required: false,
     },
     isFavourite: {
         type: Boolean,
@@ -22,6 +22,7 @@ const contactsShema = new Schema(
         type: String,
         enum: ['work', 'home', 'personal'],
         default: 'personal',
+        required: true
     },
     },
     {
@@ -30,4 +31,4 @@ const contactsShema = new Schema(
     }
 );
 
-export const getContactsCollection = new model('contacts', contactsShema);
+export const ContactsCollection = new model('contacts', contactsShema);
