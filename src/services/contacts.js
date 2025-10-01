@@ -26,7 +26,7 @@ export const updateContact = async (contactId, payload, options={}) => {
         }
     );
 
-    if(!contact) return null;
+    if(!contact || !contact.value) return null;
 
     return {
         contact: contact.value,
