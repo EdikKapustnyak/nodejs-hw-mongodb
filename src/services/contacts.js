@@ -20,7 +20,8 @@ export const updateContact = async (contactId, payload, options={}) => {
         {_id: contactId},
         payload,
         {
-            returnDocument: 'after',
+            new: true,
+            includeResultMetadata: true,
             ...options
         }
     );
@@ -28,7 +29,7 @@ export const updateContact = async (contactId, payload, options={}) => {
     if(!contact) return null;
 
     return {
-        student: contact.value,
+        contact: contact.value,
         isNew: Boolean(contact?.lastErrorObject?.upserted)
     };
 };
