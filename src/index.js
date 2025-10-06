@@ -8,3 +8,8 @@ const startServer = () => {
 };
 
 startServer();
+
+export const SORT_ORDER = {
+    ASC: 'asc',
+    DESC: 'desc'
+}
