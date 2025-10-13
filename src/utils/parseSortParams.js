@@ -1,4 +1,4 @@
-import { SORT_ORDER } from "../index.js";
+import { SORT_ORDER } from "../constants/index.js";
 
 const parseSortOrder = (sortOrder) => {
   const normalized = sortOrder?.toLowerCase();

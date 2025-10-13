@@ -2,7 +2,7 @@ import pino from "pino-http";
 import cors from "cors";
 import express from 'express';
 import { getEnvVar } from "./utils/getEnvVar.js";
-import contactsRouter from './routes/contacts.js';
+import router from './routes/index.js';
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { ctrlWrapper } from "./utils/ctrlWrapper.js";
 
@@ -32,7 +32,7 @@ export const setupServer = () => {
         });
     });
 
-    app.use(contactsRouter);
+    app.use(router);
 
     app.use(errorHandler);
 
