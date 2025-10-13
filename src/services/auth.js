@@ -3,7 +3,7 @@ import { UserCollection } from "../db/model/users.js";
 import bcrypt from 'bcrypt';
 import { SessionCollection } from "../db/model/session.js";
 import { randomBytes } from 'crypto';
-import { FIFTEEN_MINUTES, ONE_DAY } from "../constants/index.js";
+import { FIFTEEN_MINUTES, ONE_DAY } from "../constants/time.js";
 
 
 export const registerUser = async (payload) => { 

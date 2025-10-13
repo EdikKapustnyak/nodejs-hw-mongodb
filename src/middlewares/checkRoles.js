@@ -1,6 +1,7 @@
 import createHttpError from "http-errors";
 import { ContactsCollection } from "../db/model/contacts.js";
-import { ROLES } from "../constants/index.js";
+import { ROLES } from "../constants/roles.js";
+
 
 export const checkRoles = (...allowedRoles) => async (req, res, next) => {
   try {

@@ -8,7 +8,6 @@
     "lint": "eslint src/**/*.js",
     "start": "node constants/index.js",
     "dev": "nodemon constants/index.js"
-
   },
   "keywords": [],
   "author": "Eduard Znakhurenko <zned003@gmail.com>",
