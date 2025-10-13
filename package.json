@@ -6,9 +6,8 @@
   "main": "src/constants/index.js",
   "scripts": {
     "lint": "eslint src/**/*.js",
-    "start": "node constants/index.js",
-    "dev": "nodemon constants/index.js"
-
+    "start": "node src/constants/index.js",
+    "dev": "nodemon src/constants/index.js"
   },
   "keywords": [],
   "author": "Eduard Znakhurenko <zned003@gmail.com>",
