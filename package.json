@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "src/index.js",
+  "main": "src/constants/index.js",
   "scripts": {
     "lint": "eslint src/**/*.js",
-    "start": "node ./src/index.js",
-    "dev": "nodemon src/index.js"
+    "start": "node ./src/constants/index.js",
+    "dev": "nodemon src/constants/index.js"
   },
   "keywords": [],
   "author": "Eduard Znakhurenko <zned003@gmail.com>",
@@ -20,6 +20,7 @@
     "pino-pretty": "^13.1.1"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
