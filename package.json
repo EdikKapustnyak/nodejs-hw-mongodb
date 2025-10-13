@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "src/constants/index.js",
+  "main": "src/index.js",
   "scripts": {
     "lint": "eslint src/**/*.js",
-    "start": "node constants/index.js",
-    "dev": "nodemon constants/index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "keywords": [],
   "author": "Eduard Znakhurenko <zned003@gmail.com>",
