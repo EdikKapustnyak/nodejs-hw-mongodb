@@ -4,8 +4,8 @@ import express from 'express';
 import { getEnvVar } from "./utils/getEnvVar.js";
 import router from './routes/index.js';
 import { errorHandler } from "./middlewares/errorHandler.js";
-import { ctrlWrapper } from "./utils/ctrlWrapper.js";
 import cookieParser from "cookie-parser";
+import { notFoundHandler } from "./middlewares/notFoundHandler.js";
 
 const PORT = Number(getEnvVar('PORT', '3000'));
 
@@ -38,7 +38,7 @@ export const setupServer = () => {
 
     app.use(errorHandler);
 
-    app.use(ctrlWrapper);
+    app.use(notFoundHandler);
 
     app.listen(PORT, () => { 
         console.log(`Server is running on port ${PORT}`);
