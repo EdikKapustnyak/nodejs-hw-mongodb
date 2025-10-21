@@ -16,9 +16,9 @@ router.get('/', ctrlWrapper(getAllContactController));
 
 router.get('/:contactId',  isValidId,  ctrlWrapper(getContactByIdController));
 
-router.post('/', validateBody(createContactsSchema), upload.single('photo'),  ctrlWrapper(postContactController));
+router.post('/', upload.single('photo'), validateBody(createContactsSchema), ctrlWrapper(postContactController));
 
-router.patch('/:contactId',  isValidId, validateBody(updateContactSchema), upload.single('photo'), ctrlWrapper(patchContactController));
+router.patch('/:contactId', isValidId, upload.single('photo'), validateBody(updateContactSchema), ctrlWrapper(patchContactController));
 
 router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactController));
 
