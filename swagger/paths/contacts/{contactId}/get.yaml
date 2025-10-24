@@ -1,0 +1,22 @@
+tags:
+    - Contacts
+  summary: Отримати контакт за ID
+  operationId: getContactById
+  description: Повертає деталі конкретного контакту користувача.
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: contactId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Ідентифікатор контакту
+  responses:
+    '200':
+      description: Контакт успішно знайдено
+    '404':
+      description: Контакт не знайдено
+    '401':
+      description: Неавторизований запит
+  
