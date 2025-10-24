@@ -1,0 +1,41 @@
+tags:
+    - Contacts
+  summary: Отримати список контактів
+  operationId: getAllContacts
+  description: >
+    Повертає список усіх контактів поточного користувача з можливістю фільтрації, сортування та пагінації.
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: page
+      in: query
+      schema:
+        type: integer
+      description: Номер сторінки
+    - name: perPage
+      in: query
+      schema:
+        type: integer
+      description: Кількість контактів на сторінці
+    - name: sortBy
+      in: query
+      schema:
+        type: string
+      description: Поле для сортування (наприклад, name або email)
+    - name: sortOrder
+      in: query
+      schema:
+        type: string
+        enum: [asc, desc]
+      description: Напрямок сортування
+    - name: isFavourite
+      in: query
+      schema:
+        type: boolean
+      description: Фільтр улюблених контактів
+  responses:
+    '200':
+      description: Успішно отримано список контактів
+    '401':
+      description: Неавторизований запит
+  
