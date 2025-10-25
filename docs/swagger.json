@@ -1,0 +1,207 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Node.js Contacts API",
+      "description": "API для керування контактами користувача",
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+    },
+    "servers": [
+      { "url": "http://localhost:3000" },
+      { "url": "https://nodejs-hw-mongodb-lf8i.onrender.com" }
+    ],
+    "tags": [
+      { "name": "Contacts", "description": "Операції з контактами" }
+    ],
+    "paths": {
+      "/contacts": {
+        "get": {
+          "tags": ["Contacts"],
+          "summary": "Отримати список контактів користувача",
+          "operationId": "getContacts",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "schema": { "type": "integer", "default": 1 }
+            },
+            {
+              "name": "perPage",
+              "in": "query",
+              "schema": { "type": "integer", "default": 20 }
+            },
+            {
+              "name": "sortBy",
+              "in": "query",
+              "schema": { "type": "string" }
+            },
+            {
+              "name": "sortOrder",
+              "in": "query",
+              "schema": { "type": "string", "enum": ["asc", "desc"] }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Список контактів успішно отримано",
+              "content": {
+                "application/json": {
+                  "schema": { "$ref": "#/components/schemas/ContactsListResponse" }
+                }
+              }
+            }
+          },
+          "security": [{ "bearerAuth": [] }]
+        },
+        "post": {
+          "tags": ["Contacts"],
+          "summary": "Створити новий контакт",
+          "operationId": "createContact",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "multipart/form-data": {
+                "schema": { "$ref": "#/components/schemas/ContactInput" }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Контакт успішно створено",
+              "content": {
+                "application/json": {
+                  "schema": { "$ref": "#/components/schemas/ContactResponse" }
+                }
+              }
+            }
+          },
+          "security": [{ "bearerAuth": [] }]
+        }
+      },
+      "/contacts/{contactId}": {
+        "get": {
+          "tags": ["Contacts"],
+          "summary": "Отримати контакт за ID",
+          "operationId": "getContactById",
+          "parameters": [
+            {
+              "name": "contactId",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": { "$ref": "#/components/responses/ContactFound" },
+            "404": { "$ref": "#/components/responses/ContactNotFound" }
+          },
+          "security": [{ "bearerAuth": [] }]
+        },
+        "patch": {
+          "tags": ["Contacts"],
+          "summary": "Оновити контакт за ID",
+          "operationId": "updateContact",
+          "parameters": [
+            {
+              "name": "contactId",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "multipart/form-data": {
+                "schema": { "$ref": "#/components/schemas/ContactInput" }
+              }
+            }
+          },
+          "responses": {
+            "200": { "$ref": "#/components/responses/ContactUpdated" },
+            "404": { "$ref": "#/components/responses/ContactNotFound" }
+          },
+          "security": [{ "bearerAuth": [] }]
+        },
+        "delete": {
+          "tags": ["Contacts"],
+          "summary": "Видалити контакт за ID",
+          "operationId": "deleteContact",
+          "parameters": [
+            {
+              "name": "contactId",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "204": { "description": "Контакт успішно видалено" },
+            "404": { "$ref": "#/components/responses/ContactNotFound" }
+          },
+          "security": [{ "bearerAuth": [] }]
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "ContactInput": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "phoneNumber": { "type": "string" },
+            "email": { "type": "string" },
+            "isFavourite": { "type": "boolean" },
+            "contactType": { "type": "string", "enum": ["work", "home", "personal"] },
+            "photo": { "type": "string", "format": "binary" }
+          },
+          "required": ["name", "phoneNumber", "contactType"]
+        },
+        "ContactResponse": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "integer" },
+            "message": { "type": "string" },
+            "data": { "$ref": "#/components/schemas/ContactInput" }
+          }
+        },
+        "ContactsListResponse": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "integer" },
+            "message": { "type": "string" },
+            "data": {
+              "type": "array",
+              "items": { "$ref": "#/components/schemas/ContactInput" }
+            },
+            "page": { "type": "integer" },
+            "perPage": { "type": "integer" },
+            "total": { "type": "integer" }
+          }
+        }
+      },
+      "responses": {
+        "ContactFound": {
+          "description": "Контакт знайдено",
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ContactResponse" } } }
+        },
+        "ContactNotFound": {
+          "description": "Контакт не знайдено"
+        },
+        "ContactUpdated": {
+          "description": "Контакт успішно оновлено",
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ContactResponse" } } }
+        }
+      },
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer"
+        }
+      }
+    }
+  }
+  
