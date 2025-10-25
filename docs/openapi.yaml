@@ -13,7 +13,7 @@ tags:
     description: Операції з контактами
 
 servers:
-  - url: https://nodejs-hw-mongodb-5-bdth.onrender.com
+  - url: https://nodejs-hw-mongodb-lf8i.onrender.com
 
 paths:
   /contacts:
