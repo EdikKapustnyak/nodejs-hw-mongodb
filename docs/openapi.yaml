@@ -73,6 +73,21 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Contact'
+                  pagination:
+                    type: object
+                    properties:
+                      totalItems:
+                        type: integer
+                        example: 45
+                      totalPages:
+                        type: integer
+                        example: 5
+                      currentPage:
+                        type: integer
+                        example: 1
+                      perPage:
+                        type: integer
+                        example: 10
         '400':
           description: Невірний запит
           content:
@@ -196,7 +211,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/NotFoundResponse'
         '500':
           description: Внутрішня помилка сервера
           content:
@@ -270,7 +285,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/NotFoundResponse'
         '500':
           description: Внутрішня помилка сервера
           content:
@@ -312,7 +327,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/NotFoundResponse'
         '500':
           description: Внутрішня помилка сервера
           content:
@@ -373,4 +388,21 @@ components:
       example:
         status: 'error'
         message: 'Bad Request'
+        data: null
+
+    NotFoundResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: 'error'
+        message:
+          type: string
+          example: 'Contact not found'
+        data:
+          type: object
+          nullable: true
+      example:
+        status: 'error'
+        message: 'Contact not found'
         data: null
