@@ -64,30 +64,27 @@ paths:
                 type: object
                 properties:
                   status:
-                    type: string
-                    example: success
+                    type: integer
+                    example: 200
                   message:
                     type: string
-                    example: Contacts retrieved successfully
+                    example: Successfully found contacts!
                   data:
                     type: array
                     items:
                       $ref: '#/components/schemas/Contact'
-                  pagination:
-                    type: object
-                    properties:
-                      totalItems:
-                        type: integer
-                        example: 45
-                      totalPages:
-                        type: integer
-                        example: 5
-                      currentPage:
-                        type: integer
-                        example: 1
-                      perPage:
-                        type: integer
-                        example: 10
+                  totalItems:
+                    type: integer
+                    example: 45
+                  totalPages:
+                    type: integer
+                    example: 5
+                  currentPage:
+                    type: integer
+                    example: 1
+                  perPage:
+                    type: integer
+                    example: 10
         '400':
           description: Невірний запит
           content:
@@ -152,7 +149,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Contact'
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 201
+                  message:
+                    type: string
+                    example: Successfully created a contact!
+                  data:
+                    $ref: '#/components/schemas/Contact'
         '400':
           description: Помилка валідації
           content:
@@ -193,7 +199,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Contact'
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Successfully found contact with id 64c12fa7!
+                  data:
+                    $ref: '#/components/schemas/Contact'
+        '404':
+          description: Контакт не знайдено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
         '400':
           description: Невірний формат ID
           content:
@@ -206,12 +227,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '404':
-          description: Контакт не знайдено
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundResponse'
         '500':
           description: Внутрішня помилка сервера
           content:
@@ -267,7 +282,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Contact'
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Successfully patched a contact!
+                  data:
+                    $ref: '#/components/schemas/Contact'
+        '404':
+          description: Контакт не знайдено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
         '400':
           description: Помилка валідації
           content:
@@ -280,12 +310,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '404':
-          description: Контакт не знайдено
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundResponse'
         '500':
           description: Внутрішня помилка сервера
           content:
@@ -310,6 +334,12 @@ paths:
       responses:
         '204':
           description: Контакт видалено успішно (без контенту)
+        '404':
+          description: Контакт не знайдено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
         '400':
           description: Невірний формат ID
           content:
@@ -322,12 +352,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '404':
-          description: Контакт не знайдено
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundResponse'
         '500':
           description: Внутрішня помилка сервера
           content:
@@ -385,10 +409,6 @@ components:
         data:
           type: object
           nullable: true
-      example:
-        status: 'error'
-        message: 'Bad Request'
-        data: null
 
     NotFoundResponse:
       type: object
@@ -402,7 +422,3 @@ components:
         data:
           type: object
           nullable: true
-      example:
-        status: 'error'
-        message: 'Contact not found'
-        data: null
