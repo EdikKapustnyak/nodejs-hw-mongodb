@@ -1,163 +1,96 @@
-get:
-    summary: Отримати список контактів
-    description: >
-      Повертає список контактів користувача з можливістю пагінації, сортування та фільтрації.
-    tags:
-      - Contacts
-    security:
-      - bearerAuth: []
-    parameters:
-      - in: query
-        name: page
-        schema:
-          type: integer
-          default: 1
-        description: Номер сторінки
-      - in: query
-        name: perPage
-        schema:
-          type: integer
-          default: 10
-        description: Кількість контактів на сторінку
-      - in: query
-        name: sortBy
-        schema:
-          type: string
-          enum: [name, email, phoneNumber, createdAt]
-        description: Поле для сортування
-      - in: query
-        name: sortOrder
-        schema:
-          type: string
-          enum: [asc, desc]
-        description: Напрям сортування
-      - in: query
-        name: isFavourite
-        schema:
-          type: boolean
-        description: Фільтр за улюбленими контактами
-    responses:
-      '200':
-        description: Успішне отримання списку контактів
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                status:
-                  type: integer
-                  example: 200
-                message:
-                  type: string
-                  example: "Successfully found contacts!"
-                data:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      _id:
-                        type: string
-                        example: 6717b47a8a4d23f0a95b3c42
-                      name:
-                        type: string
-                        example: John Doe
-                      email:
-                        type: string
-                        example: john@example.com
-                      phoneNumber:
-                        type: string
-                        example: '380971234567'
-                      contactType:
-                        type: string
-                        enum: [personal, home, work]
-                      isFavourite:
-                        type: boolean
-                        example: false
-                      photo:
-                        type: string
-                        nullable: true
-                        example: 'https://res.cloudinary.com/demo/image/upload/sample.jpg'
-                      createdAt:
-                        type: string
-                        format: date-time
-                      updatedAt:
-                        type: string
-                        format: date-time
-                page:
-                  type: integer
-                  example: 1
-                perPage:
-                  type: integer
-                  example: 10
-                totalItems:
-                  type: integer
-                  example: 3
-                totalPages:
-                  type: integer
-                  example: 1
-                hasNextPage:
-                  type: boolean
-                  example: false
-                hasPreviousPage:
-                  type: boolean
-                  example: false
-            examples:
-              emptyList:
-                summary: Порожній список контактів
-                value:
-                  status: 200
-                  message: "Successfully found contacts!"
-                  data: []
-                  page: 1
-                  perPage: 10
-                  totalItems: 0
-                  totalPages: 0
-                  hasNextPage: false
-                  hasPreviousPage: false
-              withContacts:
-                summary: Список контактів користувача
-                value:
-                  status: 200
-                  message: "Successfully found contacts!"
+tags:
+    - Contacts
+  summary: Get list of contacts
+  operationId: getContacts
+  description: 'Get list of users with this endpoint'
+  security:
+    - bearerAuth: []
+  parameters:
+    - in: query
+      name: page
+      schema:
+        type: integer
+      example: 1
+    - in: query
+      name: perPage
+      schema:
+        type: integer
+        example: 10
+    - in: query
+      name: sortBy
+      schema:
+        type: string
+        example: 'age'
+        description: "All contact's fields can be mentioned. Default value - _id"
+    - in: query
+      name: sortOrder
+      schema:
+        type: string
+        enum: ['asc', 'desc']
+        example: 'asc'
+    - in: query
+      name: contactType
+      schema:
+        type: string
+        enum: ['work', 'home', 'personal']
+        example: work
+    - in: query
+      name: isFavourite
+      schema:
+        type: boolean
+        example: false
+  responses:
+    '200':
+      description: Successfully found contacts!
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - message
+              - data
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: Successfully found contacts!
+              data:
+                type: object
+                required:
+                  - data
+                  - page
+                  - perPage
+                  - totalItems
+                  - totalPages
+                  - hasNextPage
+                  - hasPreviousPage
+                properties:
                   data:
-                    - _id: 6717b47a8a4d23f0a95b3c42
-                      name: John Doe
-                      email: john@example.com
-                      phoneNumber: '380971234567'
-                      contactType: personal
-                      isFavourite: false
-                      photo: 'https://res.cloudinary.com/demo/image/upload/sample.jpg'
-                      createdAt: '2025-10-27T10:00:00.000Z'
-                      updatedAt: '2025-10-27T10:00:00.000Z'
-                    - _id: 6717b47a8a4d23f0a95b3c43
-                      name: Alice Johnson
-                      email: alice@example.com
-                      phoneNumber: '380971112233'
-                      contactType: work
-                      isFavourite: true
-                      photo: null
-                      createdAt: '2025-10-27T11:00:00.000Z'
-                      updatedAt: '2025-10-27T11:00:00.000Z'
-                  page: 1
-                  perPage: 10
-                  totalItems: 2
-                  totalPages: 1
-                  hasNextPage: false
-                  hasPreviousPage: false
-      '401':
-        description: Неавторизований користувач
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                status:
-                  type: integer
-                  example: 401
-                message:
-                  type: string
-                  example: "Please provide Authorization header"
-                data:
-                  type: object
-                  nullable: true
-  
+                    type: array
+                    items:
+                      $ref: '../../components/schemas/contact.yaml'
+                  page:
+                    type: number
+                    example: 2
+                  perPage:
+                    type: number
+                    example: 4
+                  totalItems:
+                    type: number
+                    example: 4
+                  totalPages:
+                    type: number
+                    example: 4
+                  hasNextPage:
+                    type: boolean
+                    example: false
+                  hasPreviousPage:
+                    type: boolean
+                    example: true
+    '404':
+      $ref: '../../components/responses/ErrorResponse.yaml'
+    '500':
+      $ref: '../../components/responses/500.yaml'
