@@ -45,18 +45,119 @@ get:
               type: object
               properties:
                 status:
-                  type: string
-                  example: success
+                  type: integer
+                  example: 200
                 message:
                   type: string
-                  example: Contacts fetched successfully
+                  example: "Successfully found contacts!"
                 data:
                   type: array
                   items:
-                    $ref: '#/components/schemas/Contact'
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 6717b47a8a4d23f0a95b3c42
+                      name:
+                        type: string
+                        example: John Doe
+                      email:
+                        type: string
+                        example: john@example.com
+                      phoneNumber:
+                        type: string
+                        example: '380971234567'
+                      contactType:
+                        type: string
+                        enum: [personal, home, work]
+                      isFavourite:
+                        type: boolean
+                        example: false
+                      photo:
+                        type: string
+                        nullable: true
+                        example: 'https://res.cloudinary.com/demo/image/upload/sample.jpg'
+                      createdAt:
+                        type: string
+                        format: date-time
+                      updatedAt:
+                        type: string
+                        format: date-time
+                page:
+                  type: integer
+                  example: 1
+                perPage:
+                  type: integer
+                  example: 10
+                totalItems:
+                  type: integer
+                  example: 3
+                totalPages:
+                  type: integer
+                  example: 1
+                hasNextPage:
+                  type: boolean
+                  example: false
+                hasPreviousPage:
+                  type: boolean
+                  example: false
+            examples:
+              emptyList:
+                summary: Порожній список контактів
+                value:
+                  status: 200
+                  message: "Successfully found contacts!"
+                  data: []
+                  page: 1
+                  perPage: 10
+                  totalItems: 0
+                  totalPages: 0
+                  hasNextPage: false
+                  hasPreviousPage: false
+              withContacts:
+                summary: Список контактів користувача
+                value:
+                  status: 200
+                  message: "Successfully found contacts!"
+                  data:
+                    - _id: 6717b47a8a4d23f0a95b3c42
+                      name: John Doe
+                      email: john@example.com
+                      phoneNumber: '380971234567'
+                      contactType: personal
+                      isFavourite: false
+                      photo: 'https://res.cloudinary.com/demo/image/upload/sample.jpg'
+                      createdAt: '2025-10-27T10:00:00.000Z'
+                      updatedAt: '2025-10-27T10:00:00.000Z'
+                    - _id: 6717b47a8a4d23f0a95b3c43
+                      name: Alice Johnson
+                      email: alice@example.com
+                      phoneNumber: '380971112233'
+                      contactType: work
+                      isFavourite: true
+                      photo: null
+                      createdAt: '2025-10-27T11:00:00.000Z'
+                      updatedAt: '2025-10-27T11:00:00.000Z'
+                  page: 1
+                  perPage: 10
+                  totalItems: 2
+                  totalPages: 1
+                  hasNextPage: false
+                  hasPreviousPage: false
       '401':
         description: Неавторизований користувач
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ErrorResponse'
+              type: object
+              properties:
+                status:
+                  type: integer
+                  example: 401
+                message:
+                  type: string
+                  example: "Please provide Authorization header"
+                data:
+                  type: object
+                  nullable: true
+  
