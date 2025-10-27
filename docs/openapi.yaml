@@ -1,180 +1,34 @@
-get:
-    summary: Отримати список контактів
-    description: >
-      Повертає список контактів користувача з можливістю пагінації, сортування та фільтрації.
-    tags:
-      - Contacts
-    security:
-      - bearerAuth: []
-    parameters:
-      - in: query
-        name: page
-        schema:
-          type: integer
-          default: 1
-        description: Номер сторінки
-      - in: query
-        name: perPage
-        schema:
-          type: integer
-          default: 10
-        description: Кількість контактів на сторінку
-      - in: query
-        name: sortBy
-        schema:
-          type: string
-          enum: [name, email, phoneNumber, createdAt]
-        description: Поле для сортування
-      - in: query
-        name: sortOrder
-        schema:
-          type: string
-          enum: [asc, desc]
-        description: Напрям сортування
-      - in: query
-        name: isFavourite
-        schema:
-          type: boolean
-        description: Фільтр за улюбленими контактами
-    responses:
-      '200':
-        description: Успішне отримання списку контактів
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PaginatedContactsResponse'
-            examples:
-              emptyList:
-                summary: Порожній список контактів
-                value:
-                  status: 200
-                  message: "Successfully found contacts!"
-                  data: []
-                  page: 1
-                  perPage: 10
-                  totalItems: 0
-                  totalPages: 0
-                  hasNextPage: false
-                  hasPreviousPage: false
-      '401':
-        description: Неавторизований користувач
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ErrorResponse'
-      '404':
-        description: Контакт не знайдено
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NotFoundResponse'
-            examples:
-              contactNotFound:
-                summary: Контакт не знайдено
-                value:
-                  status: 404
-                  message: "Contact not found!"
-                  data:
-                    message: "Contact not found!"
-  
-  components:
-    securitySchemes:
-      bearerAuth:
-        type: http
-        scheme: bearer
-        bearerFormat: JWT
-  
-    schemas:
-      Contact:
-        type: object
-        properties:
-          _id:
-            type: string
-            example: 6717b47a8a4d23f0a95b3c42
-          name:
-            type: string
-            example: John Doe
-          email:
-            type: string
-            example: john@example.com
-          phoneNumber:
-            type: string
-            example: '380971234567'
-          contactType:
-            type: string
-            enum: [personal, home, work]
-          isFavourite:
-            type: boolean
-            example: false
-          photo:
-            type: string
-            nullable: true
-            example: 'https://res.cloudinary.com/demo/image/upload/sample.jpg'
-          createdAt:
-            type: string
-            format: date-time
-          updatedAt:
-            type: string
-            format: date-time
-  
-      PaginatedContactsResponse:
-        type: object
-        properties:
-          status:
-            type: integer
-            example: 200
-          message:
-            type: string
-            example: "Successfully found contacts!"
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/Contact'
-          page:
-            type: integer
-            example: 1
-          perPage:
-            type: integer
-            example: 10
-          totalItems:
-            type: integer
-            example: 0
-          totalPages:
-            type: integer
-            example: 0
-          hasNextPage:
-            type: boolean
-            example: false
-          hasPreviousPage:
-            type: boolean
-            example: false
-  
-      ErrorResponse:
-        type: object
-        properties:
-          status:
-            type: integer
-            example: 401
-          message:
-            type: string
-            example: "Please provide Authorization header"
-          data:
-            type: object
-            nullable: true
-  
-      NotFoundResponse:
-        type: object
-        properties:
-          status:
-            type: integer
-            example: 404
-          message:
-            type: string
-            example: "Contact not found!"
-          data:
-            type: object
-            properties:
-              message:
-                type: string
-                example: "Contact not found!"
-  
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Contacts app
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: This is a documentation of contacts app
+tags:
+  - name: Contacts
+    description: Operations about users.
+  - name: Auth
+    description: Auth operations.
+servers:
+  - url: http://localhost:3000
+  - url: https://contacts-swagger-v1ra.onrender.com
+paths:
+  /contacts/{id}:
+    get:
+      $ref: ../swagger/paths/contacts/{id}/get.yaml
+    delete:
+      $ref: ../swagger/paths/contacts/{id}/delete.yaml
+    patch:
+      $ref: ../swagger/paths/contacts/{id}/patch.yaml
+  /contacts:
+    get:
+      $ref: ../swagger/paths/contacts/get.yaml
+    post:
+      $ref: ../swagger/paths/contacts/post.yaml
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
