@@ -1,18 +1,18 @@
 tags:
     - Contacts
-  summary: Update contact by id
-  operationId: updateContact
-  description: 'Update contact by id'
-  security:
+summary: Update contact by id
+operationId: updateContact
+description: 'Update contact by id'
+security:
     - bearerAuth: []
-  parameters:
+parameters:
     - in: path
       name: id
       required: true
       schema:
         type: string
         example: '65ca67e7ae7f10c88b598384'
-  requestBody:
+requestBody:
     content:
       multipart/form-data:
         schema:
@@ -46,7 +46,7 @@ tags:
               type: string
               format: binary
   
-  responses:
+responses:
     '200':
       description: 'Update contact by id'
       content:
