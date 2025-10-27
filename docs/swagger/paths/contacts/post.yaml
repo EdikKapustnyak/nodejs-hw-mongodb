@@ -1,11 +1,11 @@
 tags:
     - Contacts
-  summary: Create contact
-  operationId: createContact
-  description: 'Create a contact with payload'
-  security:
+summary: Create contact
+operationId: createContact
+description: 'Create a contact with payload'
+security:
     - bearerAuth: []
-  requestBody:
+requestBody:
     content:
       multipart/form-data:
         schema:
@@ -43,7 +43,7 @@ tags:
               type: string
               format: binary
   
-  responses:
+responses:
     '201':
       description: Creates a contact
       content:

@@ -2,11 +2,11 @@
 apis:
     sample@v1:
       root: docs/openapi.yaml
-  extends:
+extends:
     - recommended
-  rules:
+rules:
     no-unused-components: error
-  theme:
+theme:
     htmlTemplate: ./docs/index.html
     colors:
       primary:
